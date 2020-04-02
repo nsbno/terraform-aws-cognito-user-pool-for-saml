@@ -29,9 +29,7 @@ resource "aws_cognito_user_pool" "user_pool" {
   }
   
   lambda_config = {
-    content {
       pre_token_generation           = aws_lambda_function.cognito_tokengenerator.arn
-    }
   }
   
   string_schemas = [
