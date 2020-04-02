@@ -105,3 +105,14 @@ resource "aws_iam_role_policy" "cognito_tokengenerator_lambda" {
   policy = data.aws_iam_policy_document.cognito_tokengenerator.json
   role   = aws_iam_role.lambda_cognito_tokengenerator_exec.id
 }
+
+resource "aws_iam_saml_provider" "default" {
+  name                   = "azure-ad"
+  saml_metadata_document = "${file("saml.xml")}"
+}
+
+resource "aws_cognito_identity_pool" "main" {
+  identity_pool_name               = "identity pool"
+  allow_unauthenticated_identities = false
+  saml_provider_arns           = ["${aws_iam_saml_provider.default.arn}"]
+}
