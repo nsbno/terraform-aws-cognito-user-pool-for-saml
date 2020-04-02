@@ -27,6 +27,28 @@ resource "aws_cognito_user_pool" "user_pool" {
     require_numbers   = var.password_policy_require_numbers
     require_symbols   = var.password_policy_require_symbols
   }
+  
+  lambda_config = {
+    content {
+      pre_token_generation           = aws_lambda_function.cognito_tokengenerator.arn
+    }
+  }
+  
+  string_schemas = [
+    {
+      attribute_data_type      = "String"
+      developer_only_attribute = false
+      mutable                  = false
+      name                     = "groups"
+      required                 = true
+
+      string_attribute_constraints = {
+        min_length = 7
+        max_length = 15
+      }
+    },
+  ]
+  
 }
 
 resource "aws_cognito_user_pool_domain" "main" {
@@ -106,13 +128,3 @@ resource "aws_iam_role_policy" "cognito_tokengenerator_lambda" {
   role   = aws_iam_role.lambda_cognito_tokengenerator_exec.id
 }
 
-resource "aws_iam_saml_provider" "default" {
-  name                   = "azure-ad"
-  saml_metadata_document = "${file("${path.module}/saml.xml")}"
-}
-
-resource "aws_cognito_identity_pool" "main" {
-  identity_pool_name               = "identity pool"
-  allow_unauthenticated_identities = false
-  saml_provider_arns           = ["${aws_iam_saml_provider.default.arn}"]
-}
