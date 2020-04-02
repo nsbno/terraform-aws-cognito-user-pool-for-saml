@@ -86,7 +86,7 @@ data "archive_file" "lambda_cognito_tokengenerator_src" {
 }
 
 resource "aws_lambda_function" "cognito_tokengenerator" {
-  function_name    = "${var.name_prefix}-infra-trigger-pipeline"
+  function_name    = "${var.name_prefix}-cognito_tokengenerator"
   handler          = "main.lambda_handler"
   role             = aws_iam_role.lambda_cognito_tokengenerator_exec.arn
   runtime          = "nodejs12.x"
