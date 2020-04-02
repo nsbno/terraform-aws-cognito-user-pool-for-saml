@@ -76,3 +76,19 @@ data "archive_file" "lambda_cognito_tokengenerator_src" {
   source_dir = "${path.module}/src/"
   output_path = "${path.module}/src/main.zip"
 }
+
+resource "aws_lambda_function" "infra_trigger_pipeline" {
+  function_name    = "${var.name_prefix}-infra-trigger-pipeline"
+  handler          = "main.lambda_handler"
+  role             = aws_iam_role.lambda_cognito_tokengenerator_exec.arn
+  runtime          = "nodejs12.x"
+  filename         = data.archive_file.lambda_cognito_tokengenerator_src.output_path
+  source_code_hash = filebase64sha256(data.archive_file.lambda_cognito_tokengenerator_src.output_path)
+  tags             = var.tags
+}
+
+resource "aws_iam_role" "lambda_cognito_tokengenerator_exec" {
+  name               = "${var.name_prefix}-infra-trigger-pipeline"
+  assume_role_policy = data.aws_iam_policy_document.lambda_assume.json
+  tags               = var.tags
+}
