@@ -28,11 +28,11 @@ resource "aws_cognito_user_pool" "user_pool" {
     require_symbols   = var.password_policy_require_symbols
   }
   
-  lambda_config = {
+  lambda_config {
     pre_token_generation = aws_lambda_function.cognito_tokengenerator.arn
   }
   
-  schema = {
+  schema {
       attribute_data_type      = "String"
       mutable                  = false
       name                     = "groups"
