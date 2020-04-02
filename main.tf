@@ -108,7 +108,7 @@ resource "aws_iam_role_policy" "cognito_tokengenerator_lambda" {
 
 resource "aws_iam_saml_provider" "default" {
   name                   = "azure-ad"
-  saml_metadata_document = "${file("saml.xml")}"
+  saml_metadata_document = "${file("${path.module}/saml.xml")}"
 }
 
 resource "aws_cognito_identity_pool" "main" {
