@@ -29,23 +29,14 @@ resource "aws_cognito_user_pool" "user_pool" {
   }
   
   lambda_config = {
-      pre_token_generation           = aws_lambda_function.cognito_tokengenerator.arn
+    pre_token_generation = aws_lambda_function.cognito_tokengenerator.arn
   }
   
-  string_schemas = [
-    {
+  schema = {
       attribute_data_type      = "String"
-      developer_only_attribute = false
       mutable                  = false
       name                     = "groups"
-      required                 = true
-
-      string_attribute_constraints = {
-        min_length = 7
-        max_length = 15
-      }
-    },
-  ]
+    }
   
 }
 
