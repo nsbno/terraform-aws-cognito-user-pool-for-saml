@@ -9,7 +9,7 @@ data "aws_iam_policy_document" "lambda_assume" {
   }
 }
 
-data "aws_iam_policy_document" "logs_for_lambda" {
+data "aws_iam_policy_document" "cognito_tokengenerator" {
   statement {
     effect    = "Allow"
     actions   = ["logs:CreateLogGroup"]
@@ -27,7 +27,7 @@ data "aws_iam_policy_document" "logs_for_lambda" {
       "logs:PutLogEvents"
     ]
     resources = [
-      "arn:aws:logs:${local.current_region}:${local.current_account_id}:log-group:/aws/lambda/${aws_lambda_function.stepfunction_status_slack.function_name}*",
+      "arn:aws:logs:${local.current_region}:${local.current_account_id}:log-group:/aws/lambda/${aws_lambda_function.cognito_tokengenerator.function_name}*",
     ]
   }
 }

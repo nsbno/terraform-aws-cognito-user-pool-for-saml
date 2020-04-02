@@ -77,7 +77,7 @@ data "archive_file" "lambda_cognito_tokengenerator_src" {
   output_path = "${path.module}/src/main.zip"
 }
 
-resource "aws_lambda_function" "infra_trigger_pipeline" {
+resource "aws_lambda_function" "cognito_tokengenerator" {
   function_name    = "${var.name_prefix}-infra-trigger-pipeline"
   handler          = "main.lambda_handler"
   role             = aws_iam_role.lambda_cognito_tokengenerator_exec.arn
@@ -91,4 +91,9 @@ resource "aws_iam_role" "lambda_cognito_tokengenerator_exec" {
   name               = "${var.name_prefix}-infra-trigger-pipeline"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume.json
   tags               = var.tags
+}
+
+resource "aws_iam_role_policy" "cognito_tokengenerator_lambda" {
+  policy = data.aws_iam_policy_document.cognito_tokengenerator.json
+  role   = aws_iam_role.lambda_cognito_tokengenerator_exec.id
 }
