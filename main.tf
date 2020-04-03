@@ -36,6 +36,10 @@ resource "aws_cognito_user_pool" "user_pool" {
       attribute_data_type      = "String"
       mutable                  = false
       name                     = "groups"
+	  string_attribute_constraints {
+      min_length = 0
+      max_length = 2048 
+		}
     }
   
 }
@@ -116,4 +120,5 @@ resource "aws_iam_role_policy" "cognito_tokengenerator_lambda" {
   policy = data.aws_iam_policy_document.cognito_tokengenerator.json
   role   = aws_iam_role.lambda_cognito_tokengenerator_exec.id
 }
+
 
