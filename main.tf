@@ -104,7 +104,7 @@ resource "aws_lambda_function" "cognito_tokengenerator" {
   function_name    = "${var.name_prefix}-cognito_tokengenerator"
   handler          = "main.lambda_handler"
   role             = aws_iam_role.lambda_cognito_tokengenerator_exec.arn
-  runtime          = "nodejs12.x"
+  runtime          = "python3.8"
   filename         = data.archive_file.lambda_cognito_tokengenerator_src.output_path
   source_code_hash = filebase64sha256(data.archive_file.lambda_cognito_tokengenerator_src.output_path)
   tags             = var.tags

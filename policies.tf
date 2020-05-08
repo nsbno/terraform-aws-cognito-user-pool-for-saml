@@ -12,6 +12,11 @@ data "aws_iam_policy_document" "lambda_assume" {
 data "aws_iam_policy_document" "cognito_tokengenerator" {
   statement {
     effect    = "Allow"
+    actions   = ["cognito-idp:GetGroup"]
+    resources = ["${aws_cognito_user_pool_domain.main.arn}"]
+  }
+  statement {
+    effect    = "Allow"
     actions   = ["logs:CreateLogGroup"]
     resources = ["arn:aws:logs:${local.current_region}:${local.current_account_id}:*"]
   }
