@@ -41,6 +41,16 @@ resource "aws_cognito_user_pool" "user_pool" {
       max_length = 2048 
 		}
     }
+	
+  schema {
+      attribute_data_type      = "String"
+      mutable                  = false
+      name                     = "roles"
+	  string_attribute_constraints {
+      min_length = 0
+      max_length = 2048 
+		}
+    }
   
 }
 
