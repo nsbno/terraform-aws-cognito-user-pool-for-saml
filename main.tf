@@ -34,7 +34,7 @@ resource "aws_cognito_user_pool" "user_pool" {
   
   schema {
       attribute_data_type      = "String"
-      mutable                  = false
+      mutable                  = true
       name                     = "groups"
 	  string_attribute_constraints {
       min_length = 0
@@ -44,7 +44,7 @@ resource "aws_cognito_user_pool" "user_pool" {
 	
   schema {
       attribute_data_type      = "String"
-      mutable                  = false
+      mutable                  = true
       name                     = "roles"
 	  string_attribute_constraints {
       min_length = 0
