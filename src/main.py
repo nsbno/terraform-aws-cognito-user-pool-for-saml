@@ -8,10 +8,10 @@ def lambda_handler(event, context):
     if (event['triggerSource'] != "TokenGeneration_HostedAuth"):
         return event
 
-    if 'custom:groups' not in event['request']['userAttributes']:
+    if 'custom:roles' not in event['request']['userAttributes']:
         return event
 
-    group = event['request']['userAttributes']['custom:groups']
+    group = event['request']['userAttributes']['custom:roles']
     client = boto3.client('cognito-idp')
     groupinfo = client.get_group(
         UserPoolId=event['userPoolId'],
