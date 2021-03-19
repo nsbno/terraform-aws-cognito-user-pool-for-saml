@@ -15,6 +15,7 @@ def lambda_handler(event, context):
 
     group = []
     group = event['request']['userAttributes']['custom:groups']
+    group=group.replace(" ", "")
     group=group[1:]
     group=group[:-1]
     group = group.split(",")
