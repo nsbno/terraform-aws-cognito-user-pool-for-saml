@@ -13,13 +13,14 @@ def lambda_handler(event, context):
         print('custom:groups')
         return event
 
+    group = []
     group = event['request']['userAttributes']['custom:groups']
-    group=group.replace(" ", "")
     group=group[1:]
     group=group[:-1]
+    group = group.split(",")
 
     event["response"]["claimsOverrideDetails"] = {
-        "groupOverrideDetails": {"groupsToOverride": [group]}
+        "groupOverrideDetails": {"groupsToOverride": group}
     }
 
     print(f'outgoing event: {json.dumps(event)}')
