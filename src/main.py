@@ -5,8 +5,8 @@ import boto3
 def lambda_handler(event, context):
     print(f'incoming event: {json.dumps(event)}')
 
-    if (event['triggerSource'] != "TokenGeneration_HostedAuth"):
-        print('TokenGeneration_HostedAuth')
+    if (event['triggerSource'] != "TokenGeneration_HostedAuth") and (event['triggerSource'] != "TokenGeneration_RefreshTokens"):
+        print('Not an access token')
         return event
 
     if 'custom:groups' not in event['request']['userAttributes']:
