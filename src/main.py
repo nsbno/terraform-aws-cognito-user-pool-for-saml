@@ -16,8 +16,11 @@ def lambda_handler(event, context):
     group = []
     group = event['request']['userAttributes']['custom:groups']
     group=group.replace(" ", "")
-    group=group[1:]
-    group=group[:-1]
+
+    if(group.startswith("[")):
+        group=group[1:]
+        group=group[:-1]
+
     group = group.split(",")
 
     event["response"]["claimsOverrideDetails"] = {
