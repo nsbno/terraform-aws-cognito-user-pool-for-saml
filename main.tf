@@ -17,41 +17,44 @@ data "aws_route53_zone" "main" {
 
 resource "aws_cognito_user_pool" "user_pool" {
   name = "${var.name_prefix}-user-pool"
+
   admin_create_user_config {
     allow_admin_create_user_only = var.admin_create_user
   }
-  password_policy{
-    minimum_length    = var.password_policy_minimum_length
-    require_lowercase = var.password_policy_require_lowercase
-    require_uppercase = var.password_policy_require_uppercase
-    require_numbers   = var.password_policy_require_numbers
-    require_symbols   = var.password_policy_require_symbols
+
+  password_policy {
+    minimum_length                   = var.password_policy_minimum_length
+    require_lowercase                = var.password_policy_require_lowercase
+    require_uppercase                = var.password_policy_require_uppercase
+    require_numbers                  = var.password_policy_require_numbers
+    require_symbols                  = var.password_policy_require_symbols
+    temporary_password_validity_days = 7
   }
-  
+
   lambda_config {
     pre_token_generation = aws_lambda_function.cognito_tokengenerator.arn
   }
-  
+
   schema {
       attribute_data_type      = "String"
       mutable                  = true
       name                     = "groups"
 	  string_attribute_constraints {
       min_length = 0
-      max_length = 2048 
+      max_length = 2048
 		}
     }
-	
+
   schema {
       attribute_data_type      = "String"
       mutable                  = true
       name                     = "roles"
 	  string_attribute_constraints {
       min_length = 0
-      max_length = 2048 
+      max_length = 2048
 		}
     }
-  
+
 }
 
 resource "aws_cognito_user_pool_domain" "main" {
