@@ -60,6 +60,10 @@ resource "aws_cognito_user_pool" "user_pool" {
     mutable             = true
     name                = "employeeid"
   }
+
+  lifecycle {
+    ignore_changes = [schema]
+  }
 }
 
 resource "aws_cognito_user_pool_domain" "main" {
