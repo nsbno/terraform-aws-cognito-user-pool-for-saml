@@ -36,25 +36,30 @@ resource "aws_cognito_user_pool" "user_pool" {
   }
 
   schema {
-      attribute_data_type      = "String"
-      mutable                  = true
-      name                     = "groups"
-	  string_attribute_constraints {
+    attribute_data_type = "String"
+    mutable             = true
+    name                = "groups"
+    string_attribute_constraints {
       min_length = 0
       max_length = 2048
-		}
     }
+  }
 
   schema {
-      attribute_data_type      = "String"
-      mutable                  = true
-      name                     = "roles"
-	  string_attribute_constraints {
+    attribute_data_type = "String"
+    mutable             = true
+    name                = "roles"
+    string_attribute_constraints {
       min_length = 0
       max_length = 2048
-		}
     }
+  }
 
+  schema {
+    attribute_data_type = "String"
+    mutable             = true
+    name                = "employeeid"
+  }
 }
 
 resource "aws_cognito_user_pool_domain" "main" {
@@ -99,17 +104,17 @@ resource "aws_acm_certificate_validation" "cert_pool_domain_validation_request" 
 }
 
 resource "aws_route53_record" "faux_root_a_record" {
-  count = var.create_faux_root_a_record ? 1 : 0
-  name = ""
-  type = "A"
-  ttl = "300"
+  count   = var.create_faux_root_a_record ? 1 : 0
+  name    = ""
+  type    = "A"
+  ttl     = "300"
   records = ["127.0.0.1"]
   zone_id = data.aws_route53_zone.main.id
 }
 
 data "archive_file" "lambda_cognito_tokengenerator_src" {
   type        = "zip"
-  source_dir = "${path.module}/src/"
+  source_dir  = "${path.module}/src/"
   output_path = "${path.module}/src/main.zip"
 }
 
